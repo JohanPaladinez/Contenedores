@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Editor/OS
+.DS_Store
+.vscode/
+*.swp
+
+# Docker/Entornos
+*.env
