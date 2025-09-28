@@ -1,4 +1,5 @@
-#Despliegue con Docker Compose
+#Pasos para despliegue con Docker Compose
+Al momento de crear el Vagrant.file se dejo en configuracion bridge.
 
 ##Arquitectura:
 
@@ -16,15 +17,18 @@
         └─ docker-compose.yml                 # Orquestación de 3 servicios
 
 
-##Despliegue rapido:
+--Despliegue rapido:
+
 ##Clonar repositorios
+Se deben clonar los repositorios para poder llevar con exito la practica.
 
       cd /Proyecto
       https://github.com/JohanPaladinez/Convergentes.git
       https://github.com/JohanPaladinez/Convergentes-FAPPSC
 
 
-//Archivos_Clave:
+--Archivos_Clave:
+Se realizaron modificaciones a los siguientes archivos, como lo recomendaba la guia y segun los errores que nos iba arrojando.
 
 ##docker-compose.yml
 
@@ -100,6 +104,7 @@
 
 
 #Convergentes/src/db.js
+Se cambiaron las caracteristicas especificas de nuestro MongoDB para tenner acceso
 
     import mongoose from "mongoose";
     
@@ -124,6 +129,7 @@
 
 
 ##Convergentes-FAPPSC/src/api/axios.js
+Se deeb reemplaza IP_MAQUINA por la IP de la VM:
 
     import axios from "axios";
     
@@ -134,8 +140,12 @@
     
     export default instace;
 
+--Verificacion de cada contenedor
+Para verificar que realmente funcionaba todo con exito, el docente me recomendo analizar cada contenedor por separado y asi poder saber cuales eran los errores, el contenedor de MongoDB y de Frontend funcionaron correctamente, en el Backend fue necesario modificar un archivo de los controladores para que hubiera conexion.
+
 
 #Convergentes/src/controllers/auth.controller.js
+Es necesario quitar las caracteristicas de los token para que se pueda tener acceso desde cualquier IP.
 
     import User from "../models/user.model.js";
     import bcrypt from "bcryptjs";
@@ -226,6 +236,7 @@
     docker-compose up -d
 
 ##Verificar
+Verificamos que los contenedores estan conectados y que no hay problemas en la conexion.
 
     docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
 
@@ -242,10 +253,8 @@
         # o
         ip -4 addr show | grep -E 'inet .* (enp|wlp|eth|br)'
 
-
-
-
 ##Pruebas rapidas
+Para verificar que todo este en funcionamiento
 
       docker logs -f mongo_container
       docker logs -f backend_container
@@ -256,7 +265,7 @@
 
     docker exec -it mongo_container mongosh -u admin -p password123 --        authenticationDatabase admin
 
-##Comandos utiles usados:
+--Comandos utiles usados:
 
         # Levantar servicios
         docker-compose up -d
