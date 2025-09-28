@@ -1,6 +1,6 @@
 #Despliegue con Docker Compose
 
-##//Arquitectura:
+##Arquitectura:
 
         Proyecto/
         ├─ Convergentes/                      # Backend (Node/Express/Mongoose)
@@ -16,7 +16,7 @@
         └─ docker-compose.yml                 # Orquestación de 3 servicios
 
 
-##//Despliegue rapido:
+##Despliegue rapido:
 ##Clonar repositorios
 
       cd /Proyecto
@@ -229,8 +229,14 @@
 
     docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
 
+##Acceso solicitado en la guia:
 
-##//Obtener IP del Contenedor:
+        MongoDB → mongodb://admin:password123@<IP_MAQUINA>:27017/
+        Backend (Node) → http://<IP_MAQUINA>:3000/
+        Frontend (Vite) → http://<IP_MAQUINA>:5173/
+        Reemplaza <IP_MAQUINA> por tu IP de la VM (ej. 10.132.28.18).
+       
+##Obtener IP del Contenedor:
 
         hostname -I
         # o
@@ -239,16 +245,41 @@
 
 
 
-//Pruebas rapidas
+##Pruebas rapidas
 
       docker logs -f mongo_container
       docker logs -f backend_container
       docker logs -f frontend_container
 
 
-//Conexion a Mongo
+##Conexion a Mongo
 
     docker exec -it mongo_container mongosh -u admin -p password123 --        authenticationDatabase admin
+
+##Comandos utiles usados:
+
+        # Levantar servicios
+        docker-compose up -d
+
+        # Reiniciar solo backend / frontend
+        docker-compose restart backend
+        docker-compose restart frontend
+
+        # Ver logs
+        docker logs -f backend_container
+        docker logs -f frontend_container
+        docker logs -f mongo_container
+
+        # Entrar a un contenedor
+        docker-compose exec backend sh
+        docker-compose exec mongo mongosh -u admin -p password123
+
+        # Parar y limpiar (sin borrar imágenes)
+        docker-compose down
+
+        # Reconstruir si cambiaste Dockerfile o node_modules
+        docker-compose build --no-cache backend frontend
+
 
 
 #Por ultimo ir al navegador y con la direccion ip del contenedor y verificar que realmente funcionaba registrando un nuevo usuario y ingresando a su perfil
