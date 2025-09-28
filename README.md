@@ -251,7 +251,6 @@
     docker exec -it mongo_container mongosh -u admin -p password123 --        authenticationDatabase admin
 
 
-#Por ultimo ir al navegador y con la direccion ip del contenedor y verificar
-#que realmente funcionaba registrando un nuevo usuario y ingresando a su perfil
+#Por ultimo ir al navegador y con la direccion ip del contenedor y verificar que realmente funcionaba registrando un nuevo usuario y ingresando a su perfil
 
 
